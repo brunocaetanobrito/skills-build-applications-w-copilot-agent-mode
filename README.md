@@ -54,6 +54,31 @@ The advertised API URL uses `CODESPACE_NAME` in Codespaces and falls back
 to `http://localhost:8000` locally. Forward only 5173 and 8000 publicly;
 keep 27017 private.
 
+Verify the users and activities endpoints locally:
+
+```bash
+curl --fail --show-error http://localhost:8000/api/users
+curl --fail --show-error http://localhost:8000/api/activities
+```
+
+For the environment-aware API URL, use the Codespaces HTTPS address when
+`CODESPACE_NAME` is set and localhost otherwise:
+
+```bash
+if [ -n "$CODESPACE_NAME" ]; then
+  API_BASE_URL="https://${CODESPACE_NAME}-8000.app.github.dev"
+else
+  API_BASE_URL="http://localhost:8000"
+fi
+
+curl --fail --show-error "$API_BASE_URL/api/users"
+curl --fail --show-error "$API_BASE_URL/api/activities"
+```
+
+Both endpoints return HTTP 200 with a JSON array (empty until records are
+created or seeded). When using `npm start`, rebuild and restart the backend
+after source changes so the running API includes the latest routes.
+
 Build and validate:
 
 ```bash
