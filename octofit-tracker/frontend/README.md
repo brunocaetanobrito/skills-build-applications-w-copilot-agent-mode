@@ -43,6 +43,8 @@ and `/workouts`. They request `/api/activities/`, `/api/leaderboard/`,
 Lists accept either a JSON array or a paginated `{ "results": [...] }` response.
 For paginated responses, the current page's results are displayed.
 Each view includes loading, empty, error, and retry states.
+Each resource component declares its endpoint through the shared `api.fetch`
+client; the shared table handles loading and rendering without choosing the API route.
 
 ```bash
 npm run lint --prefix octofit-tracker/frontend

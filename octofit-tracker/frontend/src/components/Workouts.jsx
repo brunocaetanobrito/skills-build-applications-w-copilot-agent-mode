@@ -1,4 +1,7 @@
+import { api } from '../api.js'
 import ResourceTable from './ResourceTable.jsx'
+
+const loadRecords = (signal) => api.fetch('/api/workouts/', signal)
 
 const columns = [
   { key: 'name', label: 'Name' },
@@ -10,7 +13,7 @@ const columns = [
 ]
 
 function Workouts() {
-  return <ResourceTable title="Workouts" resource="workouts" columns={columns} />
+  return <ResourceTable title="Workouts" resource="workouts" columns={columns} loadRecords={loadRecords} />
 }
 
 export default Workouts

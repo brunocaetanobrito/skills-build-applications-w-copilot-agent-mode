@@ -17,16 +17,17 @@ export function normalizeListResponse(data) {
   return records
 }
 
-export async function fetchRecords(resource, signal) {
+async function fetchRecords(path, signal) {
   const baseUrl = getApiBaseUrl(import.meta.env.VITE_CODESPACE_NAME)
-  const path = `/api/${resource}/`
   // Vite's same-origin proxy avoids CORS during development.
   const response = await fetch(import.meta.env.DEV ? path : `${baseUrl}${path}`, { signal })
   if (!response.ok) {
-    throw new Error(`Unable to load ${resource} (HTTP ${response.status}).`)
+    throw new Error(`Unable to load ${path} (HTTP ${response.status}).`)
   }
   return normalizeListResponse(await response.json())
 }
+
+export const api = { fetch: fetchRecords }
 
 export function formatReference(value) {
   if (value && typeof value === 'object') {

@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
-import { fetchRecords } from '../api.js'
 
-function ResourceTable({ title, resource, columns }) {
+function ResourceTable({ title, resource, columns, loadRecords }) {
   const [state, setState] = useState({ status: 'loading', records: [], error: '' })
   const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     const controller = new AbortController()
 
-    fetchRecords(resource, controller.signal)
+    loadRecords(controller.signal)
       .then((records) => {
         if (!controller.signal.aborted) {
           setState({ status: 'ready', records, error: '' })
@@ -21,7 +20,7 @@ function ResourceTable({ title, resource, columns }) {
       })
 
     return () => controller.abort()
-  }, [resource, attempt])
+  }, [loadRecords, attempt])
 
   return (
     <section aria-labelledby={`${resource}-heading`}>

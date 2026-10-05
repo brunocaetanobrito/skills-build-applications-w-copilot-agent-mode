@@ -1,5 +1,7 @@
-import { formatReference } from '../api.js'
+import { api, formatReference } from '../api.js'
 import ResourceTable from './ResourceTable.jsx'
+
+const loadRecords = (signal) => api.fetch('/api/teams/', signal)
 
 const columns = [
   { key: 'name', label: 'Name' },
@@ -13,7 +15,7 @@ const columns = [
 ]
 
 function Teams() {
-  return <ResourceTable title="Teams" resource="teams" columns={columns} />
+  return <ResourceTable title="Teams" resource="teams" columns={columns} loadRecords={loadRecords} />
 }
 
 export default Teams

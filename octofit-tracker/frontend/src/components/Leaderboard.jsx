@@ -1,5 +1,7 @@
-import { formatReference } from '../api.js'
+import { api, formatReference } from '../api.js'
 import ResourceTable from './ResourceTable.jsx'
+
+const loadRecords = (signal) => api.fetch('/api/leaderboard/', signal)
 
 const columns = [
   { key: 'rank', label: 'Rank' },
@@ -10,7 +12,7 @@ const columns = [
 ]
 
 function Leaderboard() {
-  return <ResourceTable title="Leaderboard" resource="leaderboard" columns={columns} />
+  return <ResourceTable title="Leaderboard" resource="leaderboard" columns={columns} loadRecords={loadRecords} />
 }
 
 export default Leaderboard
