@@ -64,5 +64,8 @@ npm run build --prefix octofit-tracker/backend
 npm start --prefix octofit-tracker/backend
 ```
 
-This initializes the application foundation only. Authentication, fitness
-models, resource endpoints, and seed data are not implemented yet.
+The backend includes Mongoose models and CRUD API routes for users, teams,
+activities, leaderboard entries, and workouts. Populate sample records with
+`npm run seed --prefix octofit-tracker/backend`; the command clears and
+recreates those collections in `octofit_db`. Authentication is not included
+in this foundation.
