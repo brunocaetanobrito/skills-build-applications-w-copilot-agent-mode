@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
-import app, { baseUrl } from './app.js';
+import { createApp } from './app.js';
 import { connectDatabase } from './config/database.js';
 
 const port = 8000;
+const codespaceName = process.env.CODESPACE_NAME;
+const baseUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : 'http://localhost:8000';
+const app = createApp(baseUrl);
 
 async function startServer() {
   await connectDatabase();

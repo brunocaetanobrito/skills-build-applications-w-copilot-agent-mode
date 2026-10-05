@@ -51,7 +51,9 @@ curl --fail http://localhost:5173/api/health
 The health endpoint returns HTTP 200 when MongoDB is connected and HTTP 503
 when disconnected. API startup failures are logged and exit with an error.
 The advertised API URL uses `CODESPACE_NAME` in Codespaces and falls back
-to `http://localhost:8000` locally. Forward only 5173 and 8000 publicly;
+to `http://localhost:8000` locally. The server entry point constructs this
+URL and passes it to the Express application for its health response.
+Forward only 5173 and 8000 publicly;
 keep 27017 private.
 
 Verify the users and activities endpoints locally:
