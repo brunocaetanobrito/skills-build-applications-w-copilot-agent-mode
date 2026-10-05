@@ -10,3 +10,59 @@ Remember, it's self-paced so feel free to take a break! ☕️
 
 [![](https://img.shields.io/badge/Go%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/brunocaetanobrito/skills-build-applications-w-copilot-agent-mode/issues/1)
 
+## OctoFit Tracker foundation
+
+- [Presentation tier](octofit-tracker/frontend): React 19, Vite, React Router,
+  and Bootstrap on port **5173**.
+- [Logic tier](octofit-tracker/backend): Node.js LTS, Express, and TypeScript
+  on port **8000**.
+- Data tier: MongoDB on private port **27017**, accessed with Mongoose in
+  the `octofit_db` database.
+
+Use Node.js LTS (22.12+; Node.js 24 LTS recommended). Run all commands from
+the repository root without changing directories.
+
+```bash
+npm ci --prefix octofit-tracker/frontend
+npm ci --prefix octofit-tracker/backend
+ps aux | grep mongod
+```
+
+Ensure the official `mongodb-org` service is running on port 27017. The
+Codespaces startup script provides this service. The backend defaults to
+`mongodb://127.0.0.1:27017/octofit_db`; set `MONGODB_URI` in the backend's
+environment if needed. The database name remains `octofit_db`.
+
+Start each application in a separate terminal:
+
+```bash
+npm run dev --prefix octofit-tracker/backend
+npm run dev --prefix octofit-tracker/frontend
+```
+
+The API waits for MongoDB before accepting requests. Check it directly or
+through the Vite development proxy:
+
+```bash
+curl --fail http://localhost:8000/api/health
+curl --fail http://localhost:5173/api/health
+```
+
+The health endpoint returns HTTP 200 when MongoDB is connected and HTTP 503
+when disconnected. API startup failures are logged and exit with an error.
+The advertised API URL uses `CODESPACE_NAME` in Codespaces and falls back
+to `http://localhost:8000` locally. Forward only 5173 and 8000 publicly;
+keep 27017 private.
+
+Build and validate:
+
+```bash
+npm run lint --prefix octofit-tracker/frontend
+npm run build --prefix octofit-tracker/frontend
+npm run typecheck --prefix octofit-tracker/backend
+npm run build --prefix octofit-tracker/backend
+npm start --prefix octofit-tracker/backend
+```
+
+This initializes the application foundation only. Authentication, fitness
+models, resource endpoints, and seed data are not implemented yet.
